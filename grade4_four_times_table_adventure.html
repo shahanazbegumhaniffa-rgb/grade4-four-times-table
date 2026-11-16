@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4 Times Table Adventure | Grade 4</title>
+<style>
+:root{
+  --ink:#183153; --purple:#6546c7; --pink:#ff5f9e; --yellow:#ffd84d;
+  --mint:#55d6be; --blue:#53a7ff; --paper:#fffdf7; --green:#21966b;
+}
+*{box-sizing:border-box}
+body{
+ margin:0; min-height:100vh; color:var(--ink); font-family:"Trebuchet MS",Arial,sans-serif;
+ background:
+ radial-gradient(circle at 8% 12%,#fff4a8 0 5%,transparent 5.3%),
+ radial-gradient(circle at 92% 15%,#ffc9e1 0 7%,transparent 7.3%),
+ radial-gradient(circle at 6% 88%,#b8f3e5 0 8%,transparent 8.3%),
+ linear-gradient(135deg,#78d9ed,#a5e8d1 45%,#f9d5ec);
+ overflow-x:hidden;
+}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.22;background-image:radial-gradient(#fff 2px,transparent 2px);background-size:28px 28px}
+button,input{font:inherit}
+button{cursor:pointer}
+.shell{width:min(1040px,94vw);margin:22px auto 40px;position:relative}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:15px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:58px;height:58px;border-radius:18px;background:#fff;border:3px solid #fff;box-shadow:0 5px 0 #3b8eae;display:grid;place-items:center;font-size:26px;font-weight:1000;color:var(--purple)}
+.brand small{display:block;font-size:11px;font-weight:900;letter-spacing:1.2px;text-transform:uppercase}
+.brand strong{font-size:18px}
+.sound{border:0;border-radius:30px;background:#fff;padding:10px 15px;font-weight:900;box-shadow:0 4px 0 #9acbd3;color:var(--ink)}
+.panel{background:rgba(255,255,255,.94);border:4px solid #fff;border-radius:30px;box-shadow:0 12px 0 rgba(39,102,137,.18),0 18px 40px rgba(38,85,120,.14);padding:clamp(20px,4vw,42px);position:relative;overflow:hidden}
+.panel:after{content:"";position:absolute;width:170px;height:170px;border-radius:50%;background:#fff3b8;right:-75px;top:-80px;opacity:.65;z-index:0}
+.panel>*{position:relative;z-index:1}
+.hero{text-align:center}
+.eyebrow{display:inline-block;background:#e9e1ff;color:#5635b3;border-radius:30px;padding:8px 15px;font-size:12px;font-weight:1000;letter-spacing:1px;text-transform:uppercase}
+h1{font-size:clamp(34px,6vw,62px);line-height:1.02;margin:16px 0 10px;color:#4930a2;text-shadow:2px 3px 0 #e6dfff}
+.subtitle{font-size:clamp(16px,2.4vw,20px);line-height:1.5;max-width:650px;margin:0 auto 22px}
+.world{display:flex;justify-content:center;align-items:end;gap:12px;margin:12px auto 22px;max-width:620px}
+.castle{font-size:clamp(60px,12vw,110px);filter:drop-shadow(0 7px 2px #b7d4d8)}
+.treasure{font-size:clamp(45px,9vw,76px);animation:bob 2s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-9px) rotate(3deg)}}
+.namebox{max-width:390px;margin:0 auto 18px;text-align:left}
+.namebox label{display:block;font-weight:900;margin:0 0 7px 4px}
+.namebox input{width:100%;padding:14px 16px;border:3px solid #c9baff;border-radius:16px;background:#fff;font-size:18px;outline:none}
+.namebox input:focus{border-color:var(--purple);box-shadow:0 0 0 4px #eee8ff}
+.primary{border:0;border-radius:18px;padding:15px 28px;background:linear-gradient(135deg,#ffb52e,#ff6f91);color:#552b63;font-size:19px;font-weight:1000;box-shadow:0 6px 0 #d75b72;transition:.12s}
+.primary:hover{transform:translateY(-2px);filter:saturate(1.12)}
+.primary:active{transform:translateY(4px);box-shadow:0 2px 0 #d75b72}
+.secondary{border:0;border-radius:15px;padding:12px 20px;background:#e9e3ff;color:#5037a5;font-weight:900}
+.note{font-size:13px;color:#55708a;margin-top:16px}
+.gamehead{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.stage{font-weight:1000;color:#583ab0}
+.progress-wrap{height:13px;background:#e8eef4;border-radius:20px;overflow:hidden;flex:1;min-width:130px}
+.progress{height:100%;width:0;background:linear-gradient(90deg,#55d6be,#72b6ff,#b18cff);border-radius:20px;transition:width .3s}
+.keycount{background:#fff2bd;border-radius:30px;padding:8px 13px;font-weight:1000}
+.lockrow{display:flex;gap:8px;justify-content:center;margin:12px 0 22px;flex-wrap:wrap}
+.lock{width:42px;height:42px;border-radius:13px;background:#edf1f6;display:grid;place-items:center;font-size:20px;border:2px solid #d8e1eb}
+.lock.done{background:#fff1ad;border-color:#f0c84c}
+.challenge{text-align:center}
+.challenge h2{font-size:clamp(25px,4vw,36px);margin:8px 0;color:#4930a2}
+.challenge .story{font-size:17px;line-height:1.55;max-width:690px;margin:0 auto 16px}
+.scene{font-size:clamp(36px,7vw,58px);margin:10px}
+.question{background:#f4f0ff;border:3px dashed #b8a5ff;border-radius:22px;padding:19px 14px;margin:16px auto;max-width:720px}
+.question .qtext{font-size:clamp(25px,5vw,39px);font-weight:1000;color:#392779;line-height:1.25}
+.choices{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:720px;margin:18px auto}
+.choice{border:3px solid #d7e5f2;border-radius:18px;padding:15px 10px;background:#fff;font-size:clamp(20px,3vw,27px);font-weight:1000;color:#23415e;box-shadow:0 4px 0 #dbe5ec;min-height:66px}
+.choice:hover:not(:disabled){border-color:#8e78e8;transform:translateY(-2px)}
+.choice:disabled{cursor:default;opacity:1}
+.choice.correct{background:#d9f8e9;border-color:#47bd8b;color:#126744}
+.choice.wrong{background:#ffe2e9;border-color:#f17c98;color:#a33350}
+.feedback{max-width:720px;margin:14px auto 0;padding:14px 16px;border-radius:17px;font-weight:800;line-height:1.45;display:none;text-align:left}
+.feedback.show{display:block}
+.feedback.good{background:#ddf8eb;color:#126744;border:2px solid #8ad9b6}
+.feedback.try{background:#fff2c9;color:#79521a;border:2px solid #f2d37b}
+.actions{margin-top:17px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.tiny{font-size:13px;color:#637b90;margin-top:13px}
+.finish{text-align:center}
+.finish h2{font-size:clamp(32px,6vw,54px);color:#4930a2;margin:12px}
+.bigkey{font-size:100px;filter:drop-shadow(0 8px 2px #e7c04c);animation:bob 2s infinite}
+.certificate{background:#fffdf2;border:9px double #d8ad36;border-radius:10px;padding:28px 18px;margin:22px auto;max-width:700px;color:#48377b;box-shadow:0 5px 0 #e8dcae}
+.certificate .school{font-size:13px;letter-spacing:2px;font-weight:1000}
+.certificate h3{font-family:Georgia,serif;font-size:clamp(28px,5vw,43px);margin:12px 0;color:#9b6c14}
+.certname{font-family:Georgia,serif;font-size:clamp(27px,5vw,40px);font-weight:bold;border-bottom:2px solid #c8a44d;display:inline-block;padding:0 18px 5px;margin:12px}
+.certificate p{font-size:16px;line-height:1.5}
+.certfoot{display:flex;justify-content:space-around;gap:12px;margin-top:24px;font-size:12px;font-weight:bold}
+.certfoot span{border-top:1px solid #bda66a;padding:7px 16px}
+.hidden{display:none!important}
+footer{text-align:center;color:#2f627b;font-size:12px;font-weight:800;margin-top:20px}
+@media(max-width:600px){.topbar{align-items:flex-start}.brand strong{font-size:15px}.logo{width:48px;height:48px}.choices{grid-template-columns:1fr;max-width:430px}.choice{min-height:55px}.panel{border-radius:22px}.gamehead{gap:8px}.progress-wrap{order:3;flex-basis:100%}.certfoot{flex-direction:column}.world{gap:0}}
+@media print{
+ body{background:#fff!important}.topbar,footer,.screen:not(#finishScreen),#finishScreen>h2,#finishScreen>.bigkey,#finishScreen>.finishmsg,.actions,.note{display:none!important}
+ #finishScreen{display:block!important}.shell{width:100%;margin:0}.panel{box-shadow:none;border:0;padding:0}.panel:after{display:none}
+ .certificate{box-shadow:none;margin:10mm auto;max-width:180mm;min-height:120mm;break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+ <header class="topbar">
+  <div class="brand"><div class="logo" aria-label="School logo placeholder">AI</div><div><small>School logo placeholder</small><strong>Al Ijadah International School</strong></div></div>
+  <button class="sound" id="soundBtn" type="button" aria-pressed="false">🔊 Sound: Off</button>
+ </header>
+
+ <main class="panel">
+  <section id="startScreen" class="screen hero">
+   <span class="eyebrow">Grade 4 • Mathematics Adventure</span>
+   <h1>4 Times Table<br>Treasure Quest!</h1>
+   <p class="subtitle">Unlock six magical gates, solve multiplication missions and find the Golden Key. You can do it!</p>
+   <div class="world" aria-hidden="true"><div class="castle">🏰</div><div class="treasure">🗝️</div><div class="castle">🌳</div></div>
+   <div class="namebox"><label for="studentName">Your first name (optional)</label><input id="studentName" maxlength="24" placeholder="Type your name here"></div>
+   <button class="primary" id="startBtn" type="button">🚀 Start the Adventure</button>
+   <p class="note">No timer • No penalties • Try again whenever you need!</p>
+  </section>
+
+  <section id="gameScreen" class="screen hidden">
+   <div class="gamehead"><div class="stage" id="stageLabel">GATE 1 OF 6</div><div class="progress-wrap"><div class="progress" id="progressBar"></div></div><div class="keycount" id="keyCount">🗝️ 0 / 6 keys</div></div>
+   <div class="lockrow" id="lockRow" aria-label="Six adventure gates">
+    <div class="lock">🔒</div><div class="lock">🔒</div><div class="lock">🔒</div><div class="lock">🔒</div><div class="lock">🔒</div><div class="lock">🔒</div>
+   </div>
+   <div class="challenge">
+    <div class="scene" id="scene">🦊🌟</div>
+    <h2 id="challengeTitle">The Forest Gate</h2>
+    <p class="story" id="storyText"></p>
+    <div class="question"><div class="qtext" id="questionText"></div></div>
+    <div class="choices" id="choices"></div>
+    <div class="feedback" id="feedback" role="status" aria-live="polite"></div>
+    <div class="actions"><button class="primary hidden" id="nextBtn" type="button">Next Challenge ➜</button></div>
+    <p class="tiny" id="questionCount"></p>
+   </div>
+  </section>
+
+  <section id="finishScreen" class="screen finish hidden">
+   <div class="bigkey">🗝️</div>
+   <h2>You found the Golden Key!</h2>
+   <p class="finishmsg" id="finishMessage">Amazing work, multiplication explorer!</p>
+   <div class="certificate" id="certificate">
+    <div class="school">AL IJADAH INTERNATIONAL SCHOOL</div>
+    <div style="font-size:38px;margin:14px">🏆 ⭐ 🏆</div>
+    <h3>Certificate of Achievement</h3>
+    <p>This certificate is proudly presented to</p>
+    <div class="certname" id="certificateName">Maths Explorer</div>
+    <p>for completing the <strong>4 Times Table Treasure Quest</strong><br>and practising multiplication facts from 4 × 1 to 4 × 12.</p>
+    <div style="font-size:27px;margin:12px">🌟 🗝️ 🌟</div>
+    <div class="certfoot"><span>Grade 4 Mathematics</span><span>Keep learning and shining!</span></div>
+   </div>
+   <div class="actions"><button class="primary" id="printBtn" type="button">🖨️ Print Certificate</button><button class="secondary" id="againBtn" type="button">↻ Play Again</button></div>
+   <p class="note">Well done! Keep practising and your multiplication facts will become super-fast.</p>
+  </section>
+ </main>
+ <footer>🌈 Learn • Think • Try Again • Shine! 🌈</footer>
+</div>
+<script>
+(() => {
+ "use strict";
+ const challenges = [
+  {title:"The Forest Gate",scene:"🦊🌲🍄",story:"A friendly fox is collecting mushrooms. Each basket holds 4 mushrooms. Help the fox count them!",questions:[
+   {q:"There are 4 baskets with 7 mushrooms in each. How many mushrooms are there?",opts:["24","28","32"],a:"28",hint:"Count 4 groups of 7, or work out 4 × 7.",why:"4 × 7 = 28. Four groups of seven make 28."},
+   {q:"What is 4 × 3?",opts:["12","16","7"],a:"12",hint:"Add 4 three times: 4 + 4 + 4.",why:"4 × 3 = 12."}
+  ]},
+  {title:"The Rainbow Bridge",scene:"🌈🦋🌼",story:"Butterflies are crossing the rainbow bridge in equal groups. Solve the clues to cross safely.",questions:[
+   {q:"4 × ___ = 36",opts:["8","9","10"],a:"9",hint:"How many groups of 4 make 36? Try counting by fours.",why:"4 × 9 = 36, so the missing number is 9."},
+   {q:"A gardener plants 4 rows of 11 flowers. How many flowers does the gardener plant?",opts:["40","44","48"],a:"44",hint:"There are 4 equal rows. Calculate 4 × 11.",why:"4 × 11 = 44 flowers."}
+  ]},
+  {title:"The Pirate's Treasure",scene:"🏴‍☠️🚢💎",story:"A pirate has treasure chests filled with shiny gems. Choose the correct number to open the next chest.",questions:[
+   {q:"What is 4 × 12?",opts:["42","46","48"],a:"48",hint:"Think of 4 × 10 and 4 × 2, then add them.",why:"4 × 12 = 40 + 8 = 48."},
+   {q:"There are 8 plates. Each plate has 4 biscuits. How many biscuits are there altogether?",opts:["24","32","36"],a:"32",hint:"Eight groups of 4 means 4 × 8.",why:"4 × 8 = 32 biscuits."}
+  ]},
+  {title:"The Space Station",scene:"🚀🪐👩‍🚀",story:"Your space crew is packing supplies. Each pack contains the same number of items. Solve the space missions!",questions:[
+   {q:"What is 4 × 5?",opts:["20","25","15"],a:"20",hint:"Count forward in fours: 4, 8, 12, 16, 20.",why:"4 × 5 = 20."},
+   {q:"A space station has 6 rooms. Each room has 4 windows. How many windows are there?",opts:["20","24","28"],a:"24",hint:"Six groups of 4 windows: calculate 4 × 6.",why:"4 × 6 = 24 windows."}
+  ]},
+  {title:"The Dinosaur Valley",scene:"🦕🌴🥚",story:"The baby dinosaurs need help counting their eggs. Look carefully and solve the valley challenge!",questions:[
+   {q:"What is 4 × 10?",opts:["14","40","44"],a:"40",hint:"Multiplying 4 by 10 gives four tens.",why:"4 × 10 = 40."},
+   {q:"There is 1 bunch with 4 balloons. How many balloons are there?",opts:["4","8","10"],a:"4",hint:"One group has 4 balloons. What is 4 × 1?",why:"4 × 1 = 4 balloons."}
+  ]},
+  {title:"The Royal Celebration",scene:"👑🎈🎉",story:"The kingdom is ready for a celebration! Complete the final two missions to earn the Golden Key.",questions:[
+   {q:"What is 4 × 4?",opts:["12","16","20"],a:"16",hint:"Four groups of four: 4 + 4 + 4 + 4.",why:"4 × 4 = 16."},
+   {q:"A party planner puts 4 balloons in each bunch. There are 3 bunches. How many balloons are there?",opts:["7","12","14"],a:"12",hint:"Three groups of 4 balloons means 4 × 3.",why:"4 × 3 = 12 balloons."}
+  ]}
+ ];
+ const $ = id => document.getElementById(id);
+ let gate=0, qi=0, keys=0, name="Maths Explorer", soundOn=false, locked=false;
+ let audioCtx=null;
+ function tone(freq=600,duration=.12){
+  if(!soundOn)return;
+  try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);o.frequency.value=freq;o.type="sine";g.gain.setValueAtTime(.08,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+duration);o.start();o.stop(audioCtx.currentTime+duration)}catch(e){}
+ }
+ function show(id){["startScreen","gameScreen","finishScreen"].forEach(s=>$(s).classList.toggle("hidden",s!==id))}
+ function updateLocks(){
+  $("lockRow").innerHTML=challenges.map((_,i)=>`<div class="lock ${i<keys?"done":""}">${i<keys?"🔓":"🔒"}</div>`).join("");
+  $("keyCount").textContent=`🗝️ ${keys} / 6 keys`;
+  $("progressBar").style.width=`${keys/6*100}%`;
+ }
+ function render(){
+  locked=false;
+  const c=challenges[gate],q=c.questions[qi];
+  $("stageLabel").textContent=`GATE ${gate+1} OF 6`;
+  $("scene").textContent=c.scene;$("challengeTitle").textContent=c.title;$("storyText").textContent=c.story;
+  $("questionText").textContent=q.q;$("questionCount").textContent=`Question ${qi+1} of 2 • Gate ${gate+1} of 6`;
+  $("feedback").className="feedback";$("feedback").textContent="";
+  $("nextBtn").classList.add("hidden");
+  $("choices").innerHTML="";
+  q.opts.forEach((opt,i)=>{
+   const b=document.createElement("button");b.type="button";b.className="choice";b.textContent=`${["A","B","C"][i]}  ${opt}`;b.addEventListener("click",()=>answer(opt,b));$("choices").appendChild(b);
+  });
+  updateLocks();
+ }
+ function answer(opt,button){
+  if(locked)return;
+  const q=challenges[gate].questions[qi],fb=$("feedback");
+  if(opt===q.a){
+   locked=true;keys=gate+(qi===1?1:0)+(gate===5&&qi===1?1:0);
+   // Keys are awarded only after both questions in a gate.
+   if(qi===1)keys=gate+1;else keys=gate;
+   [...$("choices").children].forEach(b=>{b.disabled=true;if(b.textContent.endsWith(q.a))b.classList.add("correct")});
+   fb.className="feedback show good";fb.textContent=`🌟 Correct! ${q.why}`;
+   tone(880,.18);$("nextBtn").classList.remove("hidden");
+   $("nextBtn").textContent=qi===0?"Next Question ➜":(gate===5?"Claim the Golden Key! 🗝️":"Unlock Next Gate ➜");
+   updateLocks();
+  }else{
+   button.classList.add("wrong");button.disabled=true;
+   fb.className="feedback show try";fb.textContent=`💡 Good try! Hint: ${q.hint} Choose another answer.`;
+   tone(230,.12);
+  }
+ }
+ function advance(){
+  if(qi===0){qi=1;render();return}
+  keys=gate+1;updateLocks();
+  if(gate===5){finish();return}
+  gate++;qi=0;render();
+ }
+ function finish(){
+  name=$("studentName").value.trim()||"Maths Explorer";
+  $("certificateName").textContent=name;
+  $("finishMessage").textContent=`Fantastic work, ${name}! You unlocked all six gates and earned the Golden Key.`;
+  tone(1040,.35);show("finishScreen");
+ }
+ $("startBtn").addEventListener("click",()=>{name=$("studentName").value.trim()||"Maths Explorer";gate=0;qi=0;keys=0;show("gameScreen");render()});
+ $("nextBtn").addEventListener("click",advance);
+ $("againBtn").addEventListener("click",()=>{gate=0;qi=0;keys=0;show("startScreen");$("studentName").value=name==="Maths Explorer"?"":name;updateLocks()});
+ $("printBtn").addEventListener("click",()=>window.print());
+ $("soundBtn").addEventListener("click",()=>{soundOn=!soundOn;$("soundBtn").textContent=soundOn?"🔊 Sound: On":"🔇 Sound: Off";$("soundBtn").setAttribute("aria-pressed",String(soundOn));if(soundOn)tone(700,.12)});
+})();
+</script>
+</body>
+</html>
